@@ -1,4 +1,5 @@
 import { transporter } from "../config/nodemailer"
+import { Resend } from 'resend';
 
 interface IEmail {
     email: string
@@ -6,24 +7,18 @@ interface IEmail {
     token: string
 }
 
+const resend = new Resend('re_FPnKgyJL_2GQSL7kPdkg8aEQTRB2mqZX3');
+
 export class AuthEmail {
     static sendConfirmationEmail = async (user: IEmail) => {
-        const info = await transporter.sendMail({
+        const info = await resend.emails.send({
             from: 'UpTask <admin@task.com>',
             to: user.email,
-            subject: 'UpTask - Confirma tu cuenta',
-            text: 'UpTask - Confirma tu cuenta',
-            html: `<p>Hola: ${user.name}, has creado tu cuenta en UpTask,
-            ya casi esta todo listo, solo debes confirmar tu cuenta</p>
-                <p>Visita el siguiente enlace:</p>
-                <a href="${process.env.FRONTEND_URL}/auth/confirm-account">Confirmar cuenta</a>
-                <p>E ingresa el codigo: <b>${user.token}</b></p>
-                <p>Este token expira en 10 minutos</p>
-            
-            `
-        })
+            subject: 'Hello World',
+            html: '<p>Congrats on sending your <strong>first email</strong>!</p>'
+          });
 
-        console.log('mensaje enviado', info.messageId)
+        console.log('mensaje enviado')
     }
 
     static sendPasswordResetToken = async (user: IEmail) => {
