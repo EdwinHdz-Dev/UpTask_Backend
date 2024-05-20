@@ -249,7 +249,7 @@ export class AuthController {
         const user = await User.findById(req.user.id)
         const isPasswordCorrect = await checkPassword(password, user.password)
         if (!isPasswordCorrect) {
-            const error = new Error('El password es incorrecto')
+            const error = new Error('El Password es incorrecto')
             return res.status(401).json({ error: error.message })
         }
         res.send('Password Correcto')
