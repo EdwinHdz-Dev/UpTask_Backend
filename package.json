@@ -7,7 +7,8 @@
     "dev": "nodemon --exec ts-node src/index.ts",
     "dev:api": "nodemon --exec ts-node src/index.ts --api",
     "build": "tsc",
-    "star": "node ./dist/index.js"
+    "star": "node ./dist/index.js",
+    "postinstall": "rm -rf node_modules && npm install"
   },
   "keywords": [],
   "author": "",
