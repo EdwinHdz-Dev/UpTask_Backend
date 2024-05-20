@@ -21,6 +21,8 @@ router.post('/',
         .notEmpty().withMessage('El nombre del Cliente es Obligatorio'),
     body('description')
         .notEmpty().withMessage('La Descripcion del Proyecto es Obligatoria'),
+    body('estimatedCompletionDate')
+        .notEmpty().withMessage('La Fecha Estimada de Finalización del Proyecto es Obligatoria'),
     handleInputErrors,
     ProjectController.createProject
 )

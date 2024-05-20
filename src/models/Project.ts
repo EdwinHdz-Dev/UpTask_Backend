@@ -5,12 +5,13 @@ import Note from "./Note";
 
 //TypeScript
 export interface IProject extends Document {
-    projectName: string
-    clientName: string
-    description: string
-    tasks: PopulatedDoc<ITask & Document>[]
-    manager: PopulatedDoc<IUser & Document>
-    team: PopulatedDoc<IUser & Document>[]
+    projectName: string;
+    clientName: string;
+    description: string;
+    tasks: PopulatedDoc<ITask & Document>[];
+    manager: PopulatedDoc<IUser & Document>;
+    team: PopulatedDoc<IUser & Document>[];
+    estimatedCompletionDate: Date; // Agregar el nuevo campo
 }
 
 //Mongoose
@@ -46,7 +47,11 @@ const ProjectSchema: Schema = new Schema({
             ref: 'User'
         }
     ],
-}, {timestamps: true})
+    estimatedCompletionDate: {
+        type: Date, // Tipo Date para almacenar fechas
+        required: true // Puedes ajustar esto según tus requisitos
+    }
+}, { timestamps: true });
 
 //Middleware
 ProjectSchema.pre('deleteOne', {document: true}, async function () {

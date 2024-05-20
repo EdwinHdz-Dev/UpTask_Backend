@@ -60,6 +60,7 @@ export class ProjectController {
             req.project.projectName = req.body.projectName
             req.project.clientName = req.body.clientName
             req.project.description = req.body.description
+            req.project.estimatedCompletionDate = req.body.estimatedCompletionDate
             await req.project.save()
             res.send('Proyecto Actualizado')
         } catch (error) {
