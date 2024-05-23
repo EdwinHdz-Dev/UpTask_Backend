@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import User from "../models/User";
 import Project from "../models/Project";
+import { AuthEmail } from "../emails/AuthEmail";
 
 export class TeamMemberController {
     static findMemberByEmail = async function (req: Request, res: Response) {
@@ -28,7 +29,7 @@ export class TeamMemberController {
         const { id } = req.body
 
         //Find user
-        const user = await User.findById(id).select('id')
+        const user = await User.findById(id).select('id email name')
 
         if (!user) {
             const error = new Error('Usuario No Encontrado')
@@ -39,6 +40,12 @@ export class TeamMemberController {
             const error = new Error('El usuario ya existe en el proyecto')
             return res.status(409).json({ error: error.message })
         }
+
+        // Enviar correo de confirmación al nuevo colaborador
+        AuthEmail.sendConfirmationTeam({
+            email: user.email,
+            name: user.name
+        })
 
         req.project.team.push(user.id)
         await req.project.save()
